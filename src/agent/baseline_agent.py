@@ -7,7 +7,7 @@ This is deliberately limited  to show:
 
 """
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 TRANSACTIONAL_KEYWORDS = [
@@ -70,7 +70,7 @@ def classify_and_respond(user_query: str) -> str:
 
 def log_interaction(query: str, response: str) -> None:
     """Basic interaction logger. Uppercase writes real logs later."""
-    ts = datetime.utcnow().isoformat()
+    ts = datetime.now(timezone.utc).isoformat()
     with open("logs/interactions.log", "a", encoding="utf-8") as f:
         f.write(f"{ts} | BASELINE | Q: {query} | A: {response[:80]}\n")
 
