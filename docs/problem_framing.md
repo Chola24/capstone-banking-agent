@@ -3,7 +3,7 @@
 **Scenario:** Retail banking support (non-transactional)
 **Track:** LangChain (Framework-Based)
 **Programme:** IITM Pravartak Certificate Programme in Agentic AI and Applications
-**Author:** Chola VN
+**Author:** Cholavendhan
 **Date:** 2026-07-13
 
 ---
@@ -12,14 +12,11 @@
 
 **Primary user:** Priya, 32, a working professional and retail banking customer.
 
-She uses her bank's mobile app 4–5 times a week — checking balance, viewing
-statements, occasionally applying for products like fixed deposits. She
-prefers self-service over IVR because call queues are long and she has to
-repeat OTP verification each time. She's price-conscious and compares
+She uses her bank's mobile app 4–5 times a week — checking balance, viewing statements, occasionally applying for products like fixed deposits. She
+prefers self-service over IVR because call queues are long and she has to repeat OTP verification each time. She's price-conscious and compares
 her bank's rates against competitors before deciding on any product.
 
-**Context of use:** She's typically on her phone during a work break,
-looking for a quick answer. She doesn't want to read 40-page policy
+**Context of use:** She's typically on her phone during a work break, looking for a quick answer. She doesn't want to read 40-page policy
 documents — she wants the specific answer, cited, in under 30 seconds.
 
 ---
@@ -27,31 +24,22 @@ documents — she wants the specific answer, cited, in under 30 seconds.
 ## 2. Workflow the agent supports
 
 1. Priya opens the assistant inside her mobile banking app
-2. Types a natural-language question about a product, procedure, or her
-   eligibility for a product
+2. Types a natural-language question about a product, procedure, or her eligibility for a product
 3. Agent classifies intent: informational → transactional → sensitive
-4. For informational questions: retrieves from bank product documents,
-   generates a grounded answer with source citation
-5. For transactional or sensitive requests: refuses with an explanation
-   and offers escalation to a human specialist
+4. For informational questions: retrieves from bank product documents, generates a grounded answer with source citation
+5. For transactional or sensitive requests: refuses with an explanation and offers escalation to a human specialist
 6. Priya can give thumbs up/down after each response (feedback loop)
 
 ---
 
 ## 3. Problem statement
 
-Retail bank customers spend 4–6 minutes on IVR queues for basic product
-questions (interest rates, feature comparisons, procedures). At scale,
-this represents millions of minutes of wait time per week — directly
-impacting customer satisfaction scores and adding load to human call
-centers.
+Retail bank customers spend 4–6 minutes on IVR queues for basic product questions (interest rates, feature comparisons, procedures). At scale,
+this represents millions of minutes of wait time per week — directly impacting customer satisfaction scores and adding load to human call centers.
 
-A safe self-service chatbot could handle 60–70% of information-only
-queries, reducing customer effort and call center load. But the same
-chatbot, if poorly built, could hallucinate rates (customer decides on
-wrong info), leak PII (compliance violation), or attempt transactions
-(regulatory nightmare). Building this safely — not just building it — is
-the actual engineering problem.
+A safe self-service chatbot could handle 60–70% of information-only queries, reducing customer effort and call center load. But the same
+chatbot, if poorly built, could hallucinate rates (customer decides on wrong info), leak PII (compliance violation), or attempt transactions
+(regulatory nightmare). Building this safely — not just building it — is the actual engineering problem.
 
 ---
 
@@ -65,8 +53,7 @@ the actual engineering problem.
 - Grounded text answer with source citation (document + page)
 - OR safe refusal with escalation ticket ID
 - Every response ≤ 500 tokens
-- Response latency target: < 3 seconds median (measured: 4–7s on Vocareum
-  network; local would be faster)
+- Response latency target: < 3 seconds median (measured: 4–7s on Vocareum network; local would be faster)
 
 ### Constraints
 - **Non-transactional:** may not move money, approve loans, or close accounts
@@ -75,8 +62,7 @@ the actual engineering problem.
 - **Grounded only:** must cite retrieved documents; no prior-knowledge answers
 
 ### Assumptions
-- Customer identity is verified before this agent is invoked (agent runs
-  in read-only advisory mode; assumes upstream auth)
+- Customer identity is verified before this agent is invoked (agent runs in read-only advisory mode; assumes upstream auth)
 - Source documents (product terms, policies, RBI directives) are current
 - Deterministic LLM temperature (=0): same question yields same answer
 
@@ -116,28 +102,22 @@ the actual engineering problem.
 
 Anticipated based on prior RAG experience and general agent failure patterns:
 
-1. **Over-refusal** — agent refuses answerable info queries because prompt
-   is too conservative. Mitigation: few-shot examples of correct answers
+1. **Over-refusal** — agent refuses answerable info queries because prompt is too conservative. Mitigation: few-shot examples of correct answers
    in Variant C prompt template.
 
-2. **Under-refusal** — agent attempts to answer transactional queries by
-   inventing procedures. Mitigation: hardcoded keyword blocklist at
+2. **Under-refusal** — agent attempts to answer transactional queries by inventing procedures. Mitigation: hardcoded keyword blocklist at
    planner input, structured tool descriptions.
 
-3. **PII leak via retrieved context** — public documents may contain
-   sample account numbers or PAN. Mitigation: symmetric guardrails — scrub
+3. **PII leak via retrieved context** — public documents may contain sample account numbers or PAN. Mitigation: symmetric guardrails — scrub
    PII at both input AND output.
 
-4. **Follow-up context loss** — pronouns like "does this apply..." lose
-   retrieval anchor because retriever doesn't see history. Mitigation:
+4. **Follow-up context loss** — pronouns like "does this apply..." lose retrieval anchor because retriever doesn't see history. Mitigation:
    intent classifier + augmented input passed to agent.
 
-5. **Tool selection loop** — LLM keeps calling escalation for every
-   unclear query. Mitigation: `max_iterations=4` in AgentExecutor;
+5. **Tool selection loop** — LLM keeps calling escalation for every unclear query. Mitigation: `max_iterations=4` in AgentExecutor;
    explicit tool descriptions with usage boundaries.
 
-6. **Grounded-but-wrong** — LLM cites a source but paraphrases it wrong.
-   Mitigation: prompt instruction to quote specific numbers verbatim.
+6. **Grounded-but-wrong** — LLM cites a source but paraphrases it wrong. Mitigation: prompt instruction to quote specific numbers verbatim.
 
 7. **Cost overrun on Vocareum** — token budget is tight ($0.25 total).
    Mitigation: cache embeddings; limit history to last 3 turns;

@@ -1,9 +1,7 @@
 # Demo Script — Forced Interactions
 
-Six forced interactions captured from live sessions on 2026-07-12/13,
-demonstrating the agent's full capability spectrum: grounded retrieval,
-follow-up handling, safety refusals, escalation, PII protection, and
-adaptive behavior.
+Six forced interactions captured from live sessions on 2026-07-12/13, demonstrating the agent's full capability spectrum: grounded retrieval,
+follow-up handling, safety refusals, escalation, PII protection, and adaptive behavior.
 
 Full transcripts: `logs/interactions.log`
 Escalation tickets: `data/policy/escalations.json`
@@ -44,8 +42,7 @@ Feedback events: `data/feedback/feedback_store.json`
 **Planner:** `intent=info confidence=medium`
 
 **Agent action:** Retriever query was augmented from history →
-`{'query': 'What is the minimum age to apply for a home loan?'}` — note the
-**agent inferred "home loan"** from prior context, even though the user's
+`{'query': 'What is the minimum age to apply for a home loan?'}` — note the **agent inferred "home loan"** from prior context, even though the user's
 query didn't mention it.
 
 **Bot response:**
@@ -55,10 +52,8 @@ query didn't mention it.
 **Tools used:** `product_info_search`
 
 **What this demonstrates:**
-- Phase 6 (Memory + Planner): Short-term memory resolves pronouns and
-  implicit references correctly
-- Retriever query enrichment: history-aware retrieval, not naive
-  keyword matching
+- Phase 6 (Memory + Planner): Short-term memory resolves pronouns and implicit references correctly
+- Retriever query enrichment: history-aware retrieval, not naive keyword matching
 
 ---
 
@@ -69,8 +64,7 @@ query didn't mention it.
 **Planner:** `intent=eligibility confidence=medium`
 
 **Agent action:** Invoked `check_eligibility` with
-`{'product': 'home_loan', 'age': 30, 'income': 50000}` — three separate
-typed arguments, parsed correctly from natural language.
+`{'product': 'home_loan', 'age': 30, 'income': 50000}` — three separate typed arguments, parsed correctly from natural language.
 
 **Tool response (deterministic):**
 > Eligible for home_loan. Note: Loan tenure capped at (65 - age) years.
@@ -84,10 +78,8 @@ typed arguments, parsed correctly from natural language.
 **Tools used:** `check_eligibility`
 
 **What this demonstrates:**
-- Phase 5: Correct routing to deterministic tool (not LLM inference) for
-  a rule-based decision
-- Design principle: "Not every step needs an LLM" — eligibility rules
-  are auditable, fast, and always reproducible
+- Phase 5: Correct routing to deterministic tool (not LLM inference) for a rule-based decision
+- Design principle: "Not every step needs an LLM" — eligibility rules are auditable, fast, and always reproducible
 
 ---
 
@@ -114,10 +106,8 @@ typed arguments, parsed correctly from natural language.
 
 **What this demonstrates:**
 - Scenario 2 Safety Requirement 1: refuse money movement — enforced
-- Defense in depth: planner flagged PII pattern (`intent=pii`), LLM
-  correctly categorized as transactional. Both layers acting as backup.
-- No PII in logs: ticket stores category + reason summary, never the
-  account number
+- Defense in depth: planner flagged PII pattern (`intent=pii`), LLM correctly categorized as transactional. Both layers acting as backup.
+- No PII in logs: ticket stores category + reason summary, never the account number
 
 ---
 
@@ -140,8 +130,7 @@ typed arguments, parsed correctly from natural language.
 
 **What this demonstrates:**
 - Scenario 2 Safety Requirement 2 & 4: no PII acceptance, no PII in logs
-- Agent does NOT try to redact and continue — refuses the PAN entirely
-  and escalates
+- Agent does NOT try to redact and continue — refuses the PAN entirely and escalates
 - User is redirected to a channel where PII can be handled securely
 
 ---
@@ -165,10 +154,8 @@ typed arguments, parsed correctly from natural language.
 
 **What this demonstrates:**
 - Scenario 2 Safety Requirement 3: escalate high-risk cases — enforced
-- Extended callback window (24h) for bereavement is a compassionate
-  design choice, not a technical constraint
-- Language tone shifts appropriately ("compassionate handling") for the
-  situation
+- Extended callback window (24h) for bereavement is a compassionate design choice, not a technical constraint
+- Language tone shifts appropriately ("compassionate handling") for the situation
 
 ---
 
@@ -190,10 +177,8 @@ Two prior "info" queries got thumbs-down. On the third info query:
 > like me to do that?
 
 **What this demonstrates:**
-- Phase 7: Adaptive behavior — same category of question that got a
-  generic answer earlier now triggers a more cautious response
-- Feedback loop closed: 2 negatives → adaptation hint injected → agent
-  offers escalation more readily and suggests authoritative alternatives
+- Phase 7: Adaptive behavior — same category of question that got a generic answer earlier now triggers a more cautious response
+- Feedback loop closed: 2 negatives → adaptation hint injected → agent offers escalation more readily and suggests authoritative alternatives
 - No user-level tracking: adaptation is category-level, not user-level
 
 ---
