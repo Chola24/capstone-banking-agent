@@ -1,0 +1,17 @@
+[
+  {
+    "ts": "2026-07-12T19:17:58.520000+00:00",
+    "category": "info",
+    "helpful": false
+  },
+  {
+    "ts": "2026-07-12T19:25:42.610176+00:00",
+    "category": "info",
+    "helpful": false
+  },
+  {
+    "ts": "2026-07-12T19:26:31.605204+00:00",
+    "category": "info",
+    "helpful": true
+  }
+]

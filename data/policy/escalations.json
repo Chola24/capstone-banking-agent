@@ -1,0 +1,32 @@
+[
+  {
+    "ticket_id": "ESC-1001",
+    "category": "transactional",
+    "reason_summary": "user asked for money transfer",
+    "created_utc": "2026-07-12T06:33:59.930304+00:00"
+  },
+  {
+    "ticket_id": "ESC-1002",
+    "category": "transactional",
+    "reason_summary": "test transfer request",
+    "created_utc": "2026-07-12T07:06:09.987228+00:00"
+  },
+  {
+    "ticket_id": "ESC-1003",
+    "category": "transactional",
+    "reason_summary": "User requested a money transfer.",
+    "created_utc": "2026-07-12T07:06:55.542178+00:00"
+  },
+  {
+    "ticket_id": "ESC-1004",
+    "category": "pii_shared",
+    "reason_summary": "User shared their PAN for loan eligibility check.",
+    "created_utc": "2026-07-12T07:44:24.677319+00:00"
+  },
+  {
+    "ticket_id": "ESC-1005",
+    "category": "bereavement",
+    "reason_summary": "Request to close a joint account after the account holder's passing.",
+    "created_utc": "2026-07-12T07:44:46.095393+00:00"
+  }
+]
