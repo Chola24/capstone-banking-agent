@@ -28,5 +28,17 @@
     "category": "bereavement",
     "reason_summary": "Request to close a joint account after the account holder's passing.",
     "created_utc": "2026-07-12T07:44:46.095393+00:00"
+  },
+  {
+    "ticket_id": "ESC-1006",
+    "category": "transactional",
+    "reason_summary": "User requested a transfer of funds to a specific account.",
+    "created_utc": "2026-07-12T20:02:37.871714+00:00"
+  },
+  {
+    "ticket_id": "ESC-1007",
+    "category": "pii_shared",
+    "reason_summary": "User shared account number for a transaction request.",
+    "created_utc": "2026-07-12T20:37:46.070671+00:00"
   }
 ]

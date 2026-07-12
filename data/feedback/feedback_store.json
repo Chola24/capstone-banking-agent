@@ -13,5 +13,20 @@
     "ts": "2026-07-12T19:26:31.605204+00:00",
     "category": "info",
     "helpful": true
+  },
+  {
+    "ts": "2026-07-12T20:02:30.162324+00:00",
+    "category": "info",
+    "helpful": true
+  },
+  {
+    "ts": "2026-07-12T20:04:12.247777+00:00",
+    "category": "pii",
+    "helpful": true
+  },
+  {
+    "ts": "2026-07-12T20:37:34.798769+00:00",
+    "category": "info",
+    "helpful": true
   }
 ]
