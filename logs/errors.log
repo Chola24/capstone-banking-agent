@@ -1,0 +1,11 @@
+
+2026-07-12T20:43:46.432755+00:00 | ERROR | context=startup_smoke_test
+NoneType: None
+
+
+2026-07-12T20:44:19.698174+00:00 | ERROR | context=smoke_test_intentional
+Traceback (most recent call last):
+  File "<string>", line 3, in <module>
+    raise ValueError('Deliberate test: simulate config failure to verify error logging')
+ValueError: Deliberate test: simulate config failure to verify error logging
+

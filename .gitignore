@@ -56,8 +56,11 @@ desktop.ini
 # =============================================================================
 # Logs (keep curated samples though)
 # =============================================================================
+# Ignore all log files EXCEPT curated evidence for the capstone submission
 *.log
 logs/*.log
+!logs/errors.log
+!logs/interactions.log
 
 
 test_connection.py
